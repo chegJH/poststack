@@ -49,6 +49,11 @@ Status insert(SqList& d, int pos, int val)
 
 int main()
 {
-    SqList s{1,2,3,4,5};
+    SqList s{{1,2,3,4,5},{0,1,2,3,4,5,6,7,8,9}};
+    s.Length = 5;
+    cout<<s;
+
+    Status status = insert(s,2,9);
+    cout<<"operation:"<<status<<'\n';
     cout<<s;
 }
