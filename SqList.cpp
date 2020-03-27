@@ -15,7 +15,21 @@ struct SqList
     ElemType alter[MAXSIZE];
     int Length;//current length
 };
-
+ostream& operator<<(ostream& os, const Status st)
+{
+    switch(st)
+    {
+        case Status::ERROR :
+            cout<<"ERROR\n";
+            break;
+        case Status::OK :
+            cout<<"OK\n";
+            break;
+        default:
+            cout<<"NO-IDEA\n";
+    }
+    return os;
+}
 ostream& operator<<(ostream& os,const SqList& sql)
 {
     for(auto i:sql.data)
@@ -49,8 +63,8 @@ Status insert(SqList& d, int pos, int val)
 
 int main()
 {
-    SqList s{{1,2,3,4,5},{0,1,2,3,4,5,6,7,8,9}};
-    s.Length = 5;
+    SqList s{{1,2,3,4,5},{0,1,2,3,4,5,6,7,8,9},5};
+    // s.Length = 5;
     cout<<s;
 
     Status status = insert(s,2,9);
