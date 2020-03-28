@@ -22,9 +22,18 @@ ostream& operator<<(ostream& os, Node* nd)
 void InsertAtFront(Node* head, int value)
 {
     //insert at front of list
-    Node* tmp = new Node(value);
-    tmp->next = head->next;
-    head->next = tmp;
+    Node&& tmp (value);
+    tmp.next = head->next;
+    *head = tmp;
+    cout<<head<<'\n';
+}
+
+void InsertAtFront(Node** head_ref, int value)
+{
+    //insert at front of list
+    Node* hd = new Node(value);
+    hd->next = *head_ref;
+    *head_ref = hd;
 }
 void CreateListHead(Node* head, int val)
 {
@@ -55,9 +64,10 @@ int main()
 
     Node head(0);
     CreateListHead(&head,1);
-    InsertAtFront(&head,9);
+    InsertAtFront(&head,6);
     CreateListTail(&head,10);
-    DeleteList(&head);
+    // cout<<head.value<<"->"<<head.next->value;
+
     cout<<&head;
 
 
