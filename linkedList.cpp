@@ -1,96 +1,64 @@
-
-#include <iostream>
-typedef int ElemType;
-const int MAXSIZE = 20;
-enum Status{
-    ERROR=0,
-    OK,
-};
+#include<iostream>
 
 using namespace std;
 
-struct SqList
+
+struct Node
 {
-    ElemType data[MAXSIZE];
-    ElemType alter[MAXSIZE];
-    int Length;//current length
+    int value;
+    Node* next{nullptr};
+    Node(int v):value{v}{}
 };
 
-struct LinkedList
+ostream& operator<<(ostream& os, Node* nd)
 {
-    int value,index=0;
-    LinkedList* next;
-    LinkedList(int v,int i):value{v},index{i},next{nullptr}{}
-
-};
-
-ostream& operator<<(ostream& os,const SqList& sql)
-{
-    for(auto i:sql.data)
-        os<<i<<" ";
-    os<<"\n";
-
-     for(auto i:sql.alter)
-        os<<i<<" ";
-    os<<"\n";
+    while(nd)
+    {
+        os<<"("<<nd->value<<")->";
+        nd=nd->next;
+    }
     return os;
 }
-
-ostream& operator<<(ostream& os, LinkedList* lst)
+void InsertAtFront(Node* head, int value)
 {
-    LinkedList* tmp = lst;
-    while(tmp->next)
+    //insert at front of list
+    Node* tmp = new Node(value);
+    tmp->next = head->next;
+    head->next = tmp;
+}
+void CreateListHead(Node* head, int val)
+{
+    head->next = new Node(val);
+}
+void CreateListTail(Node* head, int val)
+{
+    while(head->next)
     {
-        os<<"("<<tmp->value<<")->";
-        tmp = tmp->next;
+        head = head->next;
     }
-    os<<"("<<tmp->value<<")\n";
+    head->next = new Node(val);
+}
+void DeleteList(Node* head)
+{
+    Node* p=head, *r;
+    while(p)
+    {
+        r=head->next;
+        free(p);
+        p=r;
+    }
 
 }
-namespace ListOperation
-{
-    //insert data at position
-    Status insert(SqList& d, int pos, int val)
-    {
-        //check position range
-        if(pos>MAXSIZE || pos<0 || pos >d.Length)
-            return Status::ERROR;
-        //shift all data if pos is not at end
-        if(pos<=d.Length)
-        {
-            for(int i=d.Length;i>=pos;--i)
-            {
-                d.data[i+1] = d.data[i];
-            }
-        }
-        //insert the val at pos
-        d.data[pos] = val;
-        return Status::OK;
-    }
-    Status insert(LinkedList* lst,int pos,int val)
-    {
-        LinkedList* tmp = lst;
-        while(tmp->next && pos!=0)
-        {
-            tmp=tmp->next;
-            --pos;
-        }
-        if (pos==0 && tmp)
-        {
-            tmp->value = val;   
-            return Status::OK;
-        }else{
-            return Status::ERROR;
-        }
-    }
-};
-
-
 int main()
 {
 
-    LinkedList*  ls = new LinkedList(1,1);
-    ls->next = new LinkedList(2,2);
-    
-    cout<<ls;
+
+    Node head(0);
+    CreateListHead(&head,1);
+    InsertAtFront(&head,9);
+    CreateListTail(&head,10);
+    DeleteList(&head);
+    cout<<&head;
+
+
 }
